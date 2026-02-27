@@ -10,6 +10,9 @@ interface Project {
   tags: string[];
   gradient: string;
   emoji: string;
+  live?: string;
+  github?: string;
+  origin?: boolean;
 }
 
 interface Skill {
@@ -76,6 +79,16 @@ const PROJECTS: Project[] = [
     tags: ["Vue.js", "Tailwind", "NestJS"],
     gradient: "rgba(99,102,241,0.8), rgba(168,85,247,0.8)",
     emoji: "📊",
+  },
+  {
+    title: "SkyWatch Weather App",
+    desc: "Where the journey started 🌱 Advanced weather app with live API, rain & snow animations, AQI, 5-day forecast & GPS location.",
+    tags: ["HTML", "CSS", "JavaScript", "OpenWeatherMap"],
+    gradient: "rgba(14,165,233,0.8), rgba(6,182,212,0.8)",
+    emoji: "🌦️",
+    live: "https://serene-piroshki-3e359e.netlify.app/",
+    github: "https://github.com/chelsynew72/SkyWatch",
+    origin: true,
   },
 ];
 
@@ -318,7 +331,22 @@ export default function Portfolio() {
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(320px,1fr))", gap: 24 }}>
           {PROJECTS.map((p, i) => (
-            <div key={i} className="card-hover" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 20, overflow: "hidden" }}>
+            <div key={i} className="card-hover" style={{
+              background: p.origin ? "rgba(14,165,233,0.07)" : "rgba(255,255,255,0.04)",
+              border: p.origin ? "1px solid rgba(14,165,233,0.35)" : "1px solid rgba(255,255,255,0.08)",
+              borderRadius: 20, overflow: "hidden", position: "relative"
+            }}>
+              {/* Origin badge */}
+              {p.origin && (
+                <div style={{
+                  position: "absolute", top: 12, right: 12, zIndex: 2,
+                  padding: "4px 12px", borderRadius: 999, fontSize: "0.7rem", fontWeight: 800,
+                  background: "linear-gradient(135deg,#0ea5e9,#06b6d4)",
+                  color: "white", letterSpacing: 0.5, boxShadow: "0 4px 16px rgba(14,165,233,0.4)"
+                }}>
+                  🌱 Where it started
+                </div>
+              )}
               <div style={{ height: 120, background: `linear-gradient(135deg,${p.gradient})`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "3rem" }}>
                 {p.emoji}
               </div>
@@ -331,8 +359,22 @@ export default function Portfolio() {
                   ))}
                 </div>
                 <div style={{ display: "flex", gap: 10 }}>
-                  <button className="btn-main" style={{ flex: 1, padding: "8px 0", borderRadius: 10, fontSize: "0.8rem" }}>Live →</button>
-                  <button style={{ flex: 1, padding: "8px 0", borderRadius: 10, fontSize: "0.8rem", fontWeight: 700, cursor: "pointer", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", color: "#d1d5db" }}>GitHub</button>
+                  {p.live ? (
+                    <a href={p.live} target="_blank" rel="noopener noreferrer" className="btn-main"
+                      style={{ flex: 1, padding: "8px 0", borderRadius: 10, fontSize: "0.8rem", textDecoration: "none", textAlign: "center" }}>
+                      Live →
+                    </a>
+                  ) : (
+                    <button className="btn-main" style={{ flex: 1, padding: "8px 0", borderRadius: 10, fontSize: "0.8rem" }}>Live →</button>
+                  )}
+                  {p.github ? (
+                    <a href={p.github} target="_blank" rel="noopener noreferrer"
+                      style={{ flex: 1, padding: "8px 0", borderRadius: 10, fontSize: "0.8rem", fontWeight: 700, cursor: "pointer", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", color: "#d1d5db", textDecoration: "none", textAlign: "center", display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
+                      🐙 GitHub
+                    </a>
+                  ) : (
+                    <button style={{ flex: 1, padding: "8px 0", borderRadius: 10, fontSize: "0.8rem", fontWeight: 700, cursor: "pointer", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", color: "#d1d5db" }}>GitHub</button>
+                  )}
                 </div>
               </div>
             </div>
